@@ -1,2 +1,1 @@
-Testing new repository
-what just happened
+trying to commit everything
