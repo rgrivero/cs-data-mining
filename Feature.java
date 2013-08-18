@@ -8,24 +8,19 @@ public class Feature {
 	
 	private int id;   // to identify the feature 
 	
-	private int f_value;
+	private double f_value;
 	
-	private double c_value;
 	
-	public Feature(int v, int i){
+	public Feature(double v, int i){
 		f_value = v;
 		id = i;
 	}
 	
-	public Feature(double value){
-		c_value = value;
-	}
-	
-	public int getValue(){
+	public Double getValue(){
 		return f_value;
 	}
 	
-	public void setValue(int v){
+	public void setValue(double v){
 		f_value = v;
 	}
 	
@@ -37,8 +32,6 @@ public class Feature {
 		id = i;
 	}
 	
-	public double getCentroidValue(){
-		return c_value;
-	}
+
 }
 

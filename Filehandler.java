@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package com.data.mining;
 
 
@@ -12,7 +10,9 @@ import java.util.*;
 import java.io.*;
 
 public class Filehandler {
-	private String filepath;
+	private String filepath; //filename
+	Set<Integer> cluster_set = new HashSet<Integer>(); //set of class labels
+	Map<Integer, Integer> cluster_map = new TreeMap<Integer, Integer>(); //map of class labels and cluster number
 	
 	/**
 	 * 
@@ -22,10 +22,18 @@ public class Filehandler {
 		filepath = filename;
 	}
 	
+	/**
+	 * 
+	 * @return filename
+	 */
 	public String getFilename(){
 		return filepath;
 	}
 	
+	/**
+	 * 
+	 * @param file
+	 */
 	public void setFilename(String file){
 		filepath = file;
 	}
@@ -35,6 +43,7 @@ public class Filehandler {
 		String[] data_line;
 		int id = 1;
 		Category c;
+		boolean text = false;
 		//Feature feature;
 		
 		ArrayList<Instance> instance_list = new ArrayList<Instance>();
@@ -46,38 +55,43 @@ public class Filehandler {
 			
 			String line = null;
 			while((line = br.readLine()) != null){
-				
+				text = false;
 				ArrayList<Feature> feature_list = new ArrayList<Feature>();
 				//process line
-				data_line = line.split(" ");	
+				data_line = line.split("[;,]");	
 				
 				//length of line
 				int size = data_line.length;
-				
-				//System.out.println(data_line.length);
 				
 				//extract features
 				for(i=0; i < size - 1; i++){
 					
 					//System.out.println(data_line[i]);
-					feature_list.add(new Feature(Integer.parseInt(data_line[i].trim()), i));
+					try{
+						feature_list.add(new Feature(Double.parseDouble(data_line[i].trim()), i));
+					}
+					catch(Exception e){
+						text = true;
+						break;
+					}
 				}								
-					
-				//instance class
-				c = new Category(Integer.parseInt(data_line[size - 1].trim()));
-				
-				//add instance to list of instance
-				instance_list.add(new Instance(id, c, feature_list));
-				
-				//increment instance id
-				id++;
-				//System.out.println(feature_list.size());
-				//System.out.println(instance_list.size());
-				
+					if(!text){
+						//instance class
+						int cluster = Integer.parseInt(data_line[size - 1].trim());
+						c = new Category(cluster);
+						
+						//add instance to list of instance
+						instance_list.add(new Instance(id, c, feature_list));
+						
+						//add to set of clusters
+						if(!cluster_set.add(cluster)){
+							cluster_set.add(cluster);
+						}
+						//increment instance id
+						id++;
+					}
 			}
-			//System.out.println(feature_list.size());
-			//System.out.println(instance_list.size());
-			
+		
 			br.close();
 			reader.close();
 		}
@@ -86,5 +100,20 @@ public class Filehandler {
 		}
 		
 		return instance_list;
+	}
+
+	/**
+	 * get the actual class of instances
+	 * @return map of class and cluster number
+	 */
+	public Map<Integer, Integer> countClasses(){
+		Object[] clusters = cluster_set.toArray();
+		Arrays.sort(clusters);
+		
+		for(int x = 0; x < clusters.length; x++){
+			int a = (Integer) clusters[x];
+			cluster_map.put(a, x);
+		}
+		return cluster_map;
 	}
 }

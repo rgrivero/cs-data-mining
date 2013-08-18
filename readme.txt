@@ -1,8 +1,13 @@
-2/4/2013
-Data is Shuttle but still thinking about changing that
-Camaria is working on KMeans algorithm
-	Minor issues still has to be resolved
-KNN is done and working
-Fatima is working on KD Tree
+Data Mining Project
+Students: 	Camaria Bevavy
+			Fatima Alkharrobi
+			
+"DataMiningMain.Java" contains the main program
+
+User is asked to provide a filename of the dataset
+data file that contains the dataset should be put inside "resources" folder
+
+For the k Nearest Neighbor: the user is asked to input k until the user presses zero or after the loop runs five times (whichever comes first)
+
 
 

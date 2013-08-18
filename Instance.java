@@ -11,7 +11,7 @@ import java.util.*;
 public class Instance{
 	
 	private int id;
-	private double[] centroid_vals;
+	//private double[] centroid_vals;
 	private Category category; //real class of instance
 	private Category assigned_category; //assigned class of instance
 	private ArrayList<Feature> feature_list; //list containing values for each attribute of the data for this instance
@@ -25,10 +25,6 @@ public class Instance{
 		setAssignedCategory(0);
 	}
 	
-	public Instance(int cat, double[] val){
-		id = cat;
-		centroid_vals = val;
-	}
 	
 	public int getID(){
 		return this.id;
@@ -54,7 +50,7 @@ public class Instance{
 	
 	public void setAssignedCategory(int v){
 		//this.assigned_category.setValue(v);
-		assigned_category = new Category(v);
+		this.assigned_category = new Category(v);
 	}
 	
 	public ArrayList<Feature> getFeature(){
@@ -63,4 +59,5 @@ public class Instance{
 		}
 		return feature_list;
 	}
+	
 }
